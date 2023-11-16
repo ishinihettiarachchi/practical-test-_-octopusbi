@@ -10,6 +10,8 @@ const app = express();
 const port = 3001;
 
 app.use(bodyParser.json());
+app.use(cors())
+app.use(express.json())
 
 app.get('/',(req,res)=>{
     const sql = "SELECT * FROM hobby";

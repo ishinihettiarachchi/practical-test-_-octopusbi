@@ -1,90 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './hobby.css';
+import axios from 'axios'
+
 
 export default function Hobby() {
-  const [hobbies, setHobbies] = useState([
-    { id: 1, name: 'Painting' },
-    { id: 2, name: 'Singing' },
-    { id: 3, name: 'Reading books' },
-  ]);
+  
 
-  const [editIndex, setEditIndex] = useState(null);
-  const [newHobbyName, setNewHobbyName] = useState('');
+  const [hobbies, setHobbies] = useState([]);
 
-  const handleEditClick = (index) => {
-    setEditIndex(index);
-    setNewHobbyName(hobbies[index].name);
-  };
+  useEffect(() => {
 
-  const handleSaveClick = (index) => {
-    const updatedHobbies = [...hobbies];
-    updatedHobbies[index].name = newHobbyName;
-    setHobbies(updatedHobbies);
-    setEditIndex(null);
-  };
+    axios.get('http://localhost:3001/')
+    
+    .then(res=>setHobbies(res.data))
+    .catch(err=>console.log(err));
+  }, []);
 
-  const handleCancelClick = () => {
-    setEditIndex(null);
-  };
+  const [values, setValues] =useState({
+    hobby : ''
+  })
 
-  const handleInputChange = (event) => {
-    setNewHobbyName(event.target.value);
-  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:3001/hobby',values)
+    .then(res=>console.log(res))
+    .catch(err => console.log(err))
+  }
+
+  const handleDelete = (id) => {
+    axios.delete('http://localhost:3001/delete/'+id)
+    .then(res=>{
+     
+    })
+    .catch(err=>console.log(err))
+  }
 
   return (
     <div className='hobby'>
       <h2>Hobbies</h2>
-
       <div className='hobby-input'>
         <p>Add New Hobby</p>
-
         <div className='hobby-form'>
-          <input type='text'></input>
-          <button className="add">
+          <form onSubmit={handleSubmit}>
+          <input type='text' onChange={e=>setValues({...values,hobby:e.target.value})}></input>
+          <button className="add" >
             Add
           </button>
+          </form>
         </div>
       </div>
 
       <table>
         <tbody>
-          {hobbies.map((hobby, index) => (
-            <tr key={hobby.id}>
-              <td>{index + 1}</td>
-              <td>
-                {editIndex === index ? (
-                  <input
-                    type='text'
-                    value={newHobbyName}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  hobby.name
-                )}
-              </td>
-              <td>
-                {editIndex === index ? (
-                  <>
-                    <button className="save" onClick={() => handleSaveClick(index)}>
-                      Save
-                    </button>
-                    <button className="cancel" onClick={handleCancelClick}>
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <button className="edit" onClick={() => handleEditClick(index)}>
-                    Edit
-                  </button>
-                )}
-              </td>
-              <td>
-                <button className="delete">
-                  Delete
+        {hobbies.map((hobby,index)=>{
+            return <tr key={index}>
+            <td>{hobby.HobbyId}</td>
+            <td>
+            {hobby.Hobby}
+            </td>
+            <td>
+            
+                <button className="edit" >
+                  Edit
                 </button>
-              </td>
+            
+            </td>
+            <td>
+              <button className="delete" onClick={()=>handleDelete(hobby.HobbyId)}>
+                Delete
+              </button>
+            </td>
             </tr>
-          ))}
+        })}
+           
+       
         </tbody>
       </table>
     </div>
