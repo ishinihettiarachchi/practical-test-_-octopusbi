@@ -8,6 +8,9 @@ const db = mysql.createConnection({
   database: 'leisurehub',
 });
 
+db.promise();
+
+
 db.connect((err) => {
   if (err) {
     console.error('Unable to connect to MySQL:', err);

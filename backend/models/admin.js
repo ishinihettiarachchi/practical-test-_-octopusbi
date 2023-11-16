@@ -1,29 +1,22 @@
-// model/admin.js
-const bcrypt = require('bcrypt');
-const { db } = require('../index');
+// models/admin.js
+const db = require('../db');
 
 const AdminModel = {
   // Function to retrieve admin data by username
-  getAdminByUsername: async (AdminName) => {
-    try {
-      const query = 'SELECT * FROM admin WHERE AdminName = ?';
-      console.log('Query:', query);
-      const [results] = await db.promise().query(query, [AdminName]);
-      return results[0];
-    } catch (error) {
-      console.error('Error retrieving admin data:', error);
-      throw error;
-    }
-  },
+  getAdminByUsername: (adminName, callback) => {
+    const query = 'SELECT * FROM admin WHERE AdminName = ?';
 
-  // Function to compare passwords using bcrypt
-  comparePasswords: async (userInputPassword, hashedPassword) => {
-    try {
-      return await bcrypt.compare(userInputPassword, hashedPassword);
-    } catch (error) {
-      console.error('Error comparing passwords:', error);
-      throw error;
-    }
+    db.query(query, [adminName], (error, results) => {
+      if (error) {
+        console.error('Error retrieving admin data:', error);
+        return callback(error, null);
+      }
+
+      const adminData = results[0];
+      console.log('Retrieved admin data from the database:', adminData);
+
+      callback(null, adminData);
+    });
   },
 };
 

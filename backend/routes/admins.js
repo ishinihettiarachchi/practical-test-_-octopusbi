@@ -1,34 +1,27 @@
-
+// routes/admin.js
 const express = require('express');
-const router = express.Router();
 const AdminModel = require('../models/admin');
 
+const router = express.Router();
+
 // Login endpoint
-router.post('/login', async (req, res) => {
-  try {
-    const { AdminName, password } = req.body;
+router.post('/login', (req, res) => {
+  const { AdminName, password } = req.body;
 
-    // Retrieve admin data by username
-    const adminData = await AdminModel.getAdminByUsername(AdminName);
-
-    if (!adminData) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+  // Retrieve admin data by username
+  AdminModel.getAdminByUsername(AdminName, (error, adminData) => {
+    if (error) {
+      return res.status(500).json({ message: 'Internal Server Error' });
     }
 
-    // Compare passwords
-    const passwordMatch = await AdminModel.comparePasswords(password, adminData.password);
+    if (!adminData || adminData.password !== password) {
+        console.log('Retrieved admin data from the database:', adminData);
 
-    if (!passwordMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-
-    // Generate a JWT token or any other authentication logic here
 
     res.status(200).json({ message: 'Login successful' });
-  } catch (error) {
-    console.error('Error in login route:', error);
-    res.status(500).json({ message: 'Internal Server Error', error: error.message });
-  }
+  });
 });
 
 module.exports = router;
