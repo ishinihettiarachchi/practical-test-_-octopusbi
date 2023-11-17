@@ -26,6 +26,11 @@
     background-color: #e6fac2;
 }
 
+.container h3{
+  text-decoration:none;
+  font-style: none;
+}
+
 .container img{
     width: 40%;
     margin: 0 auto;

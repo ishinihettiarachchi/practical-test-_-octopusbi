@@ -2,16 +2,30 @@
 import React, { useState } from 'react';
 import '../login/login.css'; // Import the CSS file
 import loginImage from '../../images/login-image.jpg'; // Import your image
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigate = useNavigate();
+
   const handleLogin = () => {
-    // This is where you would typically make an API call to authenticate the user
-    // For simplicity, we'll just log the input values to the console
-    console.log('Username:', username);
-    console.log('Password:', password);
+    // Make a POST request to your backend API
+    axios.post('http://localhost:3001/admin/login', { adminName: username, password })
+      .then(response => {
+        console.log('Login Successful:', response.data);
+        localStorage.setItem('adminToken', response.data.token);
+        
+        navigate('/')
+        // Here, you can handle the successful login, such as redirecting the user to another page.
+      })
+      .catch(error => {
+        console.error('Login Failed:', error.response.data);
+        // Handle login failure, show an error message, etc.
+      });
   };
   
   return (
