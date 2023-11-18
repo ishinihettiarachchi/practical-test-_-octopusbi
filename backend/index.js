@@ -36,6 +36,35 @@ app.post('/admin/login', (req, res) => {
     }
   });
 });
+
+
+app.get('/usersWithHobbies', (req, res) => {
+  const query = `
+    SELECT
+      User.userId,
+      User.username,
+      User.email,
+      hobby.HobbyId,
+      hobby.hobby
+    FROM
+      User
+    JOIN
+      UserHobby ON User.userId = UserHobby.user_id
+    JOIN
+      hobby ON UserHobby.hobby_id = Hobby.HobbyId;
+  `;
+
+  // Execute the query
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
 app.get('/',(req,res)=>{
     const sql = "SELECT * FROM hobby";
     db.query(sql,(err,result)=>{

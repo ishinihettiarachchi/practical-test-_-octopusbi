@@ -1,0 +1,56 @@
+/* Add this CSS to your userlist.css */
+
+.filter-container {
+  margin-bottom: 20px;
+}
+
+.container1 {
+  margin: 30px;
+}
+
+.container1 .add {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 50px;
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+label {
+  margin-right: 10px;
+}
+
+select {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.user-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.user-info {
+  padding: 16px;
+}
+
+.username {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.email, .hobbies {
+  margin-bottom: 0;
+  color: #555;
+}
+
+/* Add more styling as needed */

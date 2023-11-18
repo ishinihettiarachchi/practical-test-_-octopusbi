@@ -8,6 +8,7 @@ import User from './pages/user/User';
 import New from './pages/new/New';
 import Update from './pages/update/Update ';
 import axios from 'axios';
+import UserList from './pages/UserList/UserList';
 
 const App = () => {
   const [hobbies, setHobbies] = useState([]);
@@ -30,6 +31,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/hobbies" element={<Hobby />} />
           <Route path="/user" element={<User />} />
+          <Route path="/userlist" element={<UserList />} />
+
           <Route path="/new" element={<New hobbies={hobbies} />} />
           <Route path="/update/:id" element={<Update />} />
           
