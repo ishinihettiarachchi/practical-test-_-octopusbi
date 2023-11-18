@@ -25,24 +25,7 @@ function Home() {
   }, []);
   
 
-  // Function to decode the JWT token
-const decodeToken = (token) => {
-  return new Promise((resolve, reject) => {
-    try {
-      // Decode the token using the base64Url encoding
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace('-', '+').replace('_', '/');
-      const decoded = JSON.parse(atob(base64));
 
-      console.log('Decoded Token:', decoded); // Log the decoded token
-
-      resolve(decoded);
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      reject(error);
-    }
-  });
-};
 
 
   return (
